@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RunningHN">
         <activity
+            android:name=".registrar"
+            android:exported="false" />
+        <activity
             android:name=".Pais"
             android:exported="false" />
         <activity
