@@ -3,27 +3,66 @@ package com.example.runninghn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
 
 public class ActivityAnuncio3 extends AppCompatActivity {
     private GestureDetectorCompat mDetector;
-    Button buttonIngresar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anuncio3);
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
-        buttonIngresar = findViewById(R.id.btn_ingresar);
-        buttonIngresar.setOnClickListener(new View.OnClickListener() {
+        TextView next3 = findViewById(R.id.tvnext3);
+        next3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openActivityLogin();
+                openActivity4();
+            }
+        });
+
+        // Lottie Animation
+        LottieAnimationView animationViewRemote = findViewById(R.id.abtnnext3);
+        animationViewRemote.setAnimation(R.raw.boton);
+        animationViewRemote.loop(false);
+        animationViewRemote.playAnimation();
+
+        // handler
+        Handler handler = new Handler();
+
+        animationViewRemote.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        animationViewRemote.pauseAnimation();
+                    }
+                },1000);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                //que no siga el loop animationViewRemote.playAnimation();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
             }
         });
     }
@@ -34,9 +73,10 @@ public class ActivityAnuncio3 extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    public void openActivityLogin(){
-        Intent intent = new Intent(this, ActivityLogin.class);
+    public void openActivity4() {
+        Intent intent = new Intent(this, ActivityAnuncio4.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override
@@ -51,6 +91,8 @@ public class ActivityAnuncio3 extends AppCompatActivity {
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityx, float velocityY) {
             if(e1.getX()<e2.getX()){
                 openActivity2();
+            }else if(e1.getX()>e2.getX()){
+                openActivity4();
             }
             return true;
         }
